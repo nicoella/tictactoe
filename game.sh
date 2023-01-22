@@ -1,10 +1,15 @@
 #!/bin/bash
 
+# This is a command-line tic-tac-toe game.
+# The code can also be found on my Github (https://github.com/nicoella/tictactoe).
+
+# global variables
 cur_player="X"
 grid=(' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ' ')
 cnt=0
 winner="0"
 
+# run game
 while true
 do
     row=0
@@ -34,12 +39,12 @@ do
         then
             echo "That was not valid input. Please try again."
         fi
-
         echo -n "ROW: "
         read rowval 
         echo -n "COL: "
         read colval
 
+        # error trapping
         rowval=$(( $rowval-1 ))
         if [ $colval == 'A' ]; then
             colval=0
@@ -51,9 +56,6 @@ do
             colval=2
         fi
 
-        #echo "$rowval $colval ${grid[(($rowval*3+colval))]}"
-        #read H
-
         if ([[ $rowval -eq 0 ]] || [[ $rowval -eq 1 ]] || [[ $rowval -eq 2 ]]) &&  ([[ $colval -eq 0 ]] || [[ $colval -eq 1 ]] || [[ $colval -eq 2 ]]) && [[ ${grid[(($rowval*3+colval))]} == ' ' ]];
         then
             row=$rowval
@@ -64,6 +66,7 @@ do
         error=true
     done
 
+    # update position
     index=$(( $row*3+$col ))
     grid[$index]=$cur_player
     
@@ -74,6 +77,7 @@ do
         cur_player="X"
     fi
 
+    # check for a winner
     for ((row=0;row<3;row++));
     do
         same=true
@@ -127,6 +131,7 @@ do
     fi
 done
 
+# display win screen
 printf "\033c"
 echo "TIC-TAC-TOE"
 echo ""
